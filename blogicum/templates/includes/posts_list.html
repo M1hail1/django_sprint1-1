@@ -1,5 +1,5 @@
 {% load static %}
 
 {% for post in posts|dictsortreversed:'id' %}
-    {% include "post_card.html" %}
+    {% include "includes/post_card.html" %}
 {% endfor %}
