@@ -44,26 +44,25 @@ posts = [
     },
 ]
 
+POSTS_DICT = {post['id']: post for post in posts}
+
 
 def index(request):
     """Главная страница / Лента записей"""
-    context = {'posts': posts}
-    return render(request, 'blog/index.html', context)
+    return render(request, 'blog/index.html', {'posts': posts})
 
 
 def post_detail(request, id):
     """Отображение полного описания выбранной записи"""
-    post = [post for post in posts if post['id'] == id]
+    post = POSTS_DICT.get(id)
     if not post:
         raise Http404('Вы указали неверный id')
-    context = {'post': post[0]}
-    return render(request, 'blog/detail.html', context)
+    return render(request, 'blog/detail.html', {'post': post})
 
 
 def category_posts(request, category_slug):
     """Отображение публикаций категории"""
     sorted_posts = [post for post in posts if post['category']
                     == category_slug]
-    context = {'category': category_slug,
-               'posts': sorted_posts}
-    return render(request, 'blog/category.html', context)
+    return render(request, 'blog/category.html',
+                  {'category': category_slug, 'posts': sorted_posts})
